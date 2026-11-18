@@ -337,7 +337,15 @@
       "Common cuckoo, or Eurasian cuckoo": "Common cuckoo",
       "European badger, or Old World badger": "European badger",
       "Mud snake, or Western mud snake": "Mud snake",
-      "Akohekohe, or Crested honeycreeper": "ʻĀkohekohe"
+      "Akohekohe, or Crested honeycreeper": "ʻĀkohekohe",
+      "North American porcupine": "North American porcupine"
+    };
+
+    // Direct Wikimedia Commons file overrides for species whose Wikipedia pageimage is a map or missing
+    const COMMONS_FILE_OVERRIDES = {
+      "Proteus anguinus": "Proteus_anguinus_01.jpg",
+      "Babyrousa babyrussa": "Babyrousa_babyrussa_2.jpg",
+      "Palmeria dolei": "Palmeria_dolei.jpg"
     };
 
     let deck = [], currentSpecies = null;
@@ -404,8 +412,33 @@
       return null;
     }
 
+    async function queryCommonsFile(fileName) {
+      const url = `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent("File:" + fileName)}&prop=imageinfo&iiprop=url&iiurlwidth=1000&format=json&origin=*`;
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const pages = (await res.json())?.query?.pages;
+      if (!pages) return null;
+      for (const key of Object.keys(pages)) {
+        const ii = pages[key]?.imageinfo?.[0];
+        if (ii?.thumburl || ii?.url) {
+          return {
+            thumb: ii.thumburl || ii.url,
+            sourceUrl: `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(fileName)}`,
+            label: "Photo credit"
+          };
+        }
+      }
+      return null;
+    }
+
     async function resolveSpeciesImage(sp) {
       if (imageCache.has(sp.sci)) return imageCache.get(sp.sci);
+      if (COMMONS_FILE_OVERRIDES[sp.sci]) {
+        try {
+          const rec = await queryCommonsFile(COMMONS_FILE_OVERRIDES[sp.sci]);
+          if (rec) { imageCache.set(sp.sci, rec); return rec; }
+        } catch (_) {}
+      }
       const candidates = [];
       if (WIKI_TITLE_OVERRIDES[sp.name]) candidates.push(WIKI_TITLE_OVERRIDES[sp.name]);
       candidates.push(sp.sci);
@@ -427,7 +460,7 @@
       const viewAspect = window.innerWidth / Math.max(1, window.innerHeight);
 
       // If a photo is ultra-wide panoramic relative to portrait screen, contain it cleanly over blurred ambient backdrop
-      const isUltraWideOnPortrait = viewAspect < 0.75 && imgAspect > 1.65;
+      const isUltraWideOnPortrait = viewAspect < 0.75 && imgAspect > 1.55;
       photoEl.classList.toggle("contain-wide", isUltraWideOnPortrait);
 
       if (!isUltraWideOnPortrait) {
