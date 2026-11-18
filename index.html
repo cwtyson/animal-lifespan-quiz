@@ -321,7 +321,7 @@
 
     const COMMONS_FILE_OVERRIDES = {
       "Proteus anguinus": "Proteus_anguinus_01.jpg",
-      "Babyrousa babyrussa": "Babyrousa_babyrussa_2.jpg",
+      "Babyrousa babyrussa": "Babyrousa_babyrussa_-Auckland_Zoo-8a.jpg",
       "Palmeria dolei": "Palmeria_dolei.jpg"
     };
 
@@ -379,10 +379,17 @@
       return deck.slice(-n).reverse();
     }
 
+    function isNonPhotoFilename(name) {
+      if (!name) return false;
+      const lower = name.toLowerCase();
+      return /(map|range|distribution|diagram|skeleton|skull|cladogram|icon|\.svg$)/.test(lower);
+    }
+
     function buildSourceRecord(page) {
       const thumb = page?.thumbnail?.source;
       if (!thumb) return null;
       const fileName = page?.pageimage, pageTitle = page?.title;
+      if (isNonPhotoFilename(fileName) || isNonPhotoFilename(thumb)) return null;
       const sourceUrl = fileName
         ? `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(fileName)}`
         : (pageTitle ? `https://en.wikipedia.org/wiki/${encodeURIComponent(pageTitle.replace(/ /g, "_"))}` : thumb);
@@ -467,6 +474,28 @@
           imageCache.set(sp.sci, searched);
           const pre = new Image(); pre.src = searched.thumb;
           return searched;
+        }
+      } catch (_) {}
+      try {
+        const commonsUrl = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrsearch=${encodeURIComponent(sp.sci)}&gsrlimit=5&prop=imageinfo&iiprop=url&iiurlwidth=800&format=json&origin=*`;
+        const cRes = await fetch(commonsUrl);
+        if (cRes.ok) {
+          const cPages = (await cRes.json())?.query?.pages || {};
+          for (const p of Object.values(cPages).sort((a, b) => (a.index || 99) - (b.index || 99))) {
+            const title = p?.title || "";
+            if (isNonPhotoFilename(title)) continue;
+            const ii = p?.imageinfo?.[0];
+            if (ii?.thumburl || ii?.url) {
+              const rec = {
+                thumb: ii.thumburl || ii.url,
+                sourceUrl: `https://commons.wikimedia.org/wiki/${encodeURIComponent(title.replace(/ /g, "_"))}`,
+                label: "Photo credit"
+              };
+              imageCache.set(sp.sci, rec);
+              const pre = new Image(); pre.src = rec.thumb;
+              return rec;
+            }
+          }
         }
       } catch (_) {}
       imageCache.set(sp.sci, null);
