@@ -136,9 +136,18 @@
       font-size: 0.92rem; font-weight: 800; letter-spacing: 0.02em;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
     }
-    #verdict-banner.accurate { background: var(--zissou-teal); color: var(--zissou-navy); }
-    #verdict-banner.under { background: var(--zissou-yellow); color: var(--zissou-navy); }
-    #verdict-banner.over { background: var(--zissou-red); color: #FFFFFF; }
+    #verdict-banner.accurate {
+      background: linear-gradient(135deg, var(--zissou-yellow) 0%, var(--zissou-gold) 100%);
+      color: var(--zissou-navy);
+    }
+    #verdict-banner.under {
+      background: linear-gradient(135deg, #F25C00 0%, var(--zissou-red) 100%);
+      color: #FFFFFF;
+    }
+    #verdict-banner.over {
+      background: linear-gradient(135deg, var(--zissou-teal) 0%, var(--zissou-blue) 100%);
+      color: #FFFFFF;
+    }
 
     #comparison-pill {
       margin-top: 8px; padding: 7px 14px; border-radius: 16px;
