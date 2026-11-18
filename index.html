@@ -320,10 +320,10 @@
     };
 
     const COMMONS_FILE_OVERRIDES = {
-      "Proteus anguinus": "Proteus_anguinus_01.jpg",
-      "Babyrousa babyrussa": "Babyrousa_babyrussa_-Auckland_Zoo-8a.jpg",
-      "Palmeria dolei": "Palmeria_dolei.jpg"
-    };
+      "Proteus anguinus": "P anguinus1.jpg",
+      "Babyrousa babyrussa": "Babyrousa celebensis - Crane.jpg",
+      "Palmeria dolei": "Akohekohe (Palmeria dolei), Haleakalā, Hawaii 01.jpg"
+};
 
     let deck = [], currentSpecies = null;
     let sessionRounds = 0, sessionLogErrors = [];
@@ -382,7 +382,7 @@
     function isNonPhotoFilename(name) {
       if (!name) return false;
       const lower = name.toLowerCase();
-      return /(map|range|distribution|diagram|skeleton|skull|cladogram|icon|\.svg$)/.test(lower);
+      return /(map|range|distribution|verbreitung|karte|carte|mapa|areal|diagram|skeleton|skull|cladogram|icon|\.svg$)/.test(lower);
     }
 
     function buildSourceRecord(page) {
@@ -477,7 +477,7 @@
         }
       } catch (_) {}
       try {
-        const commonsUrl = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrsearch=${encodeURIComponent(sp.sci)}&gsrlimit=5&prop=imageinfo&iiprop=url&iiurlwidth=800&format=json&origin=*`;
+        const commonsUrl = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrsearch=${encodeURIComponent(sp.sci + ' filetype:bitmap')}&gsrlimit=5&prop=imageinfo&iiprop=url&iiurlwidth=800&format=json&origin=*`;
         const cRes = await fetch(commonsUrl);
         if (cRes.ok) {
           const cPages = (await cRes.json())?.query?.pages || {};
