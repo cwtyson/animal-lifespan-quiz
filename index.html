@@ -603,7 +603,7 @@
         verdictBannerEl.textContent = `Overestimated — ${userRatio.toFixed(2)}× actual lifespan`;
       }
 
-      comparisonPillEl.innerHTML = `Your guess: <strong>${formatYears(raw)} yrs</strong> (${userRatio.toFixed(2)}×) &bull; Survey avg: <strong>${formatYears(pubEst)} yrs</strong> (${pubRatio.toFixed(2)}×)`;
+      comparisonPillEl.innerHTML = `Survey avg: <strong>${formatYears(pubEst)} yrs</strong> (${pubRatio.toFixed(2)}×)`;
 
       guessFormEl.classList.add("hidden");
       centerRevealEl.classList.add("visible");
