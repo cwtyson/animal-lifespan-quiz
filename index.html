@@ -351,13 +351,7 @@
 
     function updateSessionBanner() {
       const roundNum = sessionRounds + 1;
-      if (sessionLogErrors.length === 0) {
-        sessionStatsEl.textContent = `Animal ${roundNum} • Ready`;
-      } else {
-        const meanAbsLog = sessionLogErrors.reduce((a, b) => a + b, 0) / sessionLogErrors.length;
-        const calPct = Math.round(Math.exp(-meanAbsLog) * 100);
-        sessionStatsEl.textContent = `Animal ${roundNum} • Calibration: ${calPct}%`;
-      }
+      sessionStatsEl.textContent = `Animal ${roundNum}`;
     }
 
     resetSessionBtnEl.addEventListener("click", () => {
