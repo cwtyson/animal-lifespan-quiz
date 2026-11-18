@@ -53,22 +53,38 @@
     }
     #fallback-svg-wrap.visible { opacity: 0.32; }
     .top-scrim {
-      position: absolute; top: 0; left: 0; right: 0; height: 28%; z-index: 2; pointer-events: none;
-      background: linear-gradient(to bottom, rgba(16, 32, 45, 0.45) 0%, rgba(16, 32, 45, 0) 100%);
+      position: absolute; top: 0; left: 0; right: 0; height: 30%; z-index: 2; pointer-events: none;
+      background: linear-gradient(to bottom, rgba(16, 32, 45, 0.52) 0%, rgba(16, 32, 45, 0) 100%);
       transition: background 0.35s ease;
     }
     .top-scrim.light-bg {
-      background: linear-gradient(to bottom, rgba(251, 249, 242, 0.62) 0%, rgba(251, 249, 242, 0) 100%);
+      background: linear-gradient(to bottom, rgba(251, 249, 242, 0.66) 0%, rgba(251, 249, 242, 0) 100%);
     }
     .bottom-scrim {
       position: absolute; bottom: 0; left: 0; right: 0; height: 34%; z-index: 2; pointer-events: none;
       background: linear-gradient(to top, rgba(16, 32, 45, 0.74) 0%, rgba(16, 32, 45, 0) 100%);
     }
+
+    /* Top Header & Session Tracker */
     header#species-header {
       position: relative; z-index: 3;
-      padding: calc(env(safe-area-inset-top, 14px) + 14px) 20px 10px;
+      padding: calc(env(safe-area-inset-top, 12px) + 10px) 18px 8px;
       text-align: center; transition: color 0.35s ease, text-shadow 0.35s ease;
     }
+    #session-bar {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 4px 12px; margin-bottom: 8px; border-radius: 999px;
+      background: rgba(20, 40, 56, 0.72); border: 1px solid rgba(120, 183, 197, 0.42);
+      color: #FBF9F2; font-size: 0.76rem; font-weight: 600;
+      text-shadow: none; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    }
+    #reset-session-btn {
+      background: rgba(235, 204, 42, 0.2); border: 1px solid rgba(235, 204, 42, 0.55);
+      color: var(--zissou-yellow); border-radius: 999px;
+      padding: 1px 8px; font-size: 0.7rem; font-weight: 700; cursor: pointer;
+    }
+    #reset-session-btn:active { transform: scale(0.95); }
+
     header#species-header.on-dark {
       color: #FBF9F2;
       text-shadow: 0 2px 12px rgba(10, 22, 32, 0.85), 0 1px 3px rgba(0, 0, 0, 0.9);
@@ -79,19 +95,31 @@
       text-shadow: 0 1px 10px rgba(255, 255, 255, 0.92), 0 0 2px rgba(255, 255, 255, 0.95);
     }
     header#species-header.on-light #latin-name { color: #1D5E70; }
-    #common-name { font-size: clamp(1.65rem, 6.8vw, 2.45rem); font-weight: 800; line-height: 1.12; letter-spacing: -0.02em; }
-    #latin-name { margin-top: 4px; font-size: clamp(1.02rem, 4.1vw, 1.3rem); font-style: italic; font-weight: 600; letter-spacing: 0.01em; }
+
+    #common-name { font-size: clamp(1.6rem, 6.6vw, 2.4rem); font-weight: 800; line-height: 1.12; letter-spacing: -0.02em; }
+    #subtitle-row {
+      margin-top: 4px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;
+    }
+    #latin-name { font-size: clamp(1.0rem, 4.0vw, 1.25rem); font-style: italic; font-weight: 600; letter-spacing: 0.01em; }
+    #class-badge {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 999px;
+      background: rgba(20, 40, 56, 0.68); color: #FBF9F2;
+      border: 1px solid rgba(251, 249, 242, 0.35); text-shadow: none;
+    }
+
+    /* Center Reveal */
     #center-reveal {
       position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; padding: 0 24px; pointer-events: none;
+      align-items: center; justify-content: center; padding: 0 20px; pointer-events: none;
       opacity: 0; transform: scale(0.92);
       transition: opacity 0.32s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     }
     #center-reveal.visible { opacity: 1; transform: scale(1); }
     .reveal-backdrop {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 18px 28px; border-radius: 28px;
-      background: radial-gradient(ellipse at center, rgba(16, 32, 45, 0.62) 0%, rgba(16, 32, 45, 0.25) 70%, rgba(16, 32, 45, 0) 100%);
+      padding: 18px 24px; border-radius: 28px; max-width: 440px;
+      background: radial-gradient(ellipse at center, rgba(16, 32, 45, 0.68) 0%, rgba(16, 32, 45, 0.3) 72%, rgba(16, 32, 45, 0) 100%);
       text-align: center;
     }
     #true-age-number {
@@ -99,38 +127,56 @@
       letter-spacing: -0.03em; text-shadow: 0 4px 24px rgba(0, 0, 0, 0.78), 0 2px 6px rgba(0, 0, 0, 0.9);
     }
     #true-age-unit {
-      color: #FFFFFF; font-size: clamp(1.25rem, 4.8vw, 1.65rem); font-weight: 700;
+      color: #FFFFFF; font-size: clamp(1.2rem, 4.6vw, 1.6rem); font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.14em; margin-top: 6px;
       text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
     }
+    #verdict-banner {
+      margin-top: 12px; padding: 6px 14px; border-radius: 999px;
+      font-size: 0.92rem; font-weight: 800; letter-spacing: 0.02em;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    }
+    #verdict-banner.accurate { background: var(--zissou-teal); color: var(--zissou-navy); }
+    #verdict-banner.under { background: var(--zissou-yellow); color: var(--zissou-navy); }
+    #verdict-banner.over { background: var(--zissou-red); color: #FFFFFF; }
+
     #comparison-pill {
-      margin-top: 14px; padding: 7px 15px; border-radius: 999px;
-      background: rgba(20, 40, 56, 0.82); border: 1.5px solid var(--zissou-teal);
-      color: #FBF9F2; font-size: 0.92rem; font-weight: 600;
+      margin-top: 8px; padding: 7px 14px; border-radius: 16px;
+      background: rgba(20, 40, 56, 0.86); border: 1.5px solid var(--zissou-teal);
+      color: #FBF9F2; font-size: 0.88rem; font-weight: 600; line-height: 1.35;
       backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
     }
+
+    /* Bottom Dock */
     footer#bottom-dock {
       position: relative; z-index: 4;
-      padding: 10px 18px calc(env(safe-area-inset-bottom, 16px) + 16px);
+      padding: 10px 18px calc(env(safe-area-inset-bottom, 16px) + 14px);
       width: 100%; max-width: 480px; margin: 0 auto;
     }
     #guess-form {
       display: flex; flex-direction: column; gap: 10px;
-      background: rgba(20, 40, 56, 0.78); border: 1.5px solid rgba(120, 183, 197, 0.45);
+      background: rgba(20, 40, 56, 0.8); border: 1.5px solid rgba(120, 183, 197, 0.45);
       border-radius: 22px; padding: 12px;
       backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.42);
     }
     #guess-form.hidden { display: none; }
+    .input-wrap {
+      position: relative; width: 100%;
+    }
     #lifespan-input {
       width: 100%; height: 54px; border-radius: 14px; border: 2px solid var(--zissou-teal);
-      background: rgba(251, 249, 242, 0.96); color: var(--zissou-navy);
-      font-size: 18px; font-weight: 700; text-align: center; outline: none;
+      background: rgba(251, 249, 242, 0.97); color: var(--zissou-navy);
+      font-size: 18px; font-weight: 700; text-align: center; padding: 0 56px; outline: none;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    #lifespan-input::placeholder { color: #536B78; font-weight: 600; font-size: 16.5px; }
+    #lifespan-input::placeholder { color: #536B78; font-weight: 600; font-size: 16px; }
     #lifespan-input:focus { border-color: var(--zissou-gold); box-shadow: 0 0 0 3px rgba(225, 175, 0, 0.32); }
+    .unit-tag {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      font-size: 0.82rem; font-weight: 700; color: #536B78; pointer-events: none;
+    }
     input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     input[type="number"] { -moz-appearance: textfield; }
     .action-btn {
@@ -145,7 +191,7 @@
     #wiki-source-wrap { margin-top: 8px; text-align: center; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     #wiki-source-link {
       display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-      font-size: 0.75rem; font-weight: 500; color: rgba(251, 249, 242, 0.8); text-decoration: none;
+      font-size: 0.75rem; font-weight: 500; color: rgba(251, 249, 242, 0.82); text-decoration: none;
       border-bottom: 1px dotted rgba(251, 249, 242, 0.45); padding-bottom: 1px;
       transition: color 0.15s ease, border-color 0.15s ease;
     }
@@ -155,8 +201,8 @@
 <body>
   <div id="app">
     <div id="bg-stage">
-      <img id="ambient-bg" alt="" aria-hidden="true" crossorigin="anonymous" />
-      <img id="animal-photo" alt="Wildlife photograph" crossorigin="anonymous" />
+      <img id="ambient-bg" alt="" aria-hidden="true" />
+      <img id="animal-photo" alt="Wildlife photograph" />
       <div id="fallback-svg-wrap">
         <svg width="220" height="220" viewBox="0 0 200 200" fill="none">
           <circle cx="100" cy="100" r="82" stroke="#78B7C5" stroke-width="4" stroke-dasharray="10 8" />
@@ -167,20 +213,34 @@
       <div id="top-scrim" class="top-scrim"></div>
       <div class="bottom-scrim"></div>
     </div>
+
     <header id="species-header" class="on-dark">
+      <div id="session-bar">
+        <span id="session-stats">Animal 1 • New Visitor</span>
+        <button id="reset-session-btn" type="button" title="Reset for next visitor">Reset</button>
+      </div>
       <h1 id="common-name">Loading species...</h1>
-      <div id="latin-name"></div>
+      <div id="subtitle-row">
+        <span id="latin-name"></span>
+        <span id="class-badge"></span>
+      </div>
     </header>
+
     <main id="center-reveal" aria-live="polite">
       <div class="reveal-backdrop">
         <div id="true-age-number">0</div>
         <div id="true-age-unit">Years Maximum Lifespan</div>
+        <div id="verdict-banner" class="accurate">Spot on!</div>
         <div id="comparison-pill">Your guess: —</div>
       </div>
     </main>
+
     <footer id="bottom-dock">
       <form id="guess-form" autocomplete="off">
-        <input id="lifespan-input" type="number" inputmode="decimal" step="any" min="0.1" max="500" placeholder="Guess my maximum lifespan" aria-label="Guess my maximum lifespan" required />
+        <div class="input-wrap">
+          <input id="lifespan-input" type="number" inputmode="decimal" step="any" min="0.1" max="500" placeholder="Guess max lifespan" aria-label="Guess maximum lifespan in years" enterkeyhint="done" required />
+          <span class="unit-tag">years</span>
+        </div>
         <button id="submit-btn" class="action-btn" type="submit">Reveal Lifespan</button>
       </form>
       <button id="next-btn" class="action-btn" type="button">Next Animal &rarr;</button>
@@ -189,159 +249,67 @@
       </div>
     </footer>
   </div>
+
   <script>
     const SPECIES_DATA = [{"name": "Tiger salamander", "sci": "Ambystoma tigrinum", "cls": "Amphibia", "act": 25.0, "est": 11.2, "n": 142}, {"name": "American toad", "sci": "Anaxyrus americanus", "cls": "Amphibia", "act": 36.0, "est": 8.8, "n": 142}, {"name": "Hellbender", "sci": "Cryptobranchus alleganiensis", "cls": "Amphibia", "act": 29.0, "est": 16.6, "n": 268}, {"name": "Northern leopard frog", "sci": "Lithobates pipiens", "cls": "Amphibia", "act": 9.0, "est": 6.7, "n": 269}, {"name": "Eastern red-backed salamander", "sci": "Plethodon cinereus", "cls": "Amphibia", "act": 25.0, "est": 10.4, "n": 265}, {"name": "Olm", "sci": "Proteus anguinus", "cls": "Amphibia", "act": 102.0, "est": 31.4, "n": 267}, {"name": "Cane toad", "sci": "Rhinella marina", "cls": "Amphibia", "act": 24.8, "est": 9.1, "n": 41}, {"name": "Eurasian sparrowhawk", "sci": "Accipiter nisus", "cls": "Aves", "act": 20.2, "est": 15.0, "n": 41}, {"name": "Wood duck", "sci": "Aix sponsa", "cls": "Aves", "act": 22.5, "est": 12.6, "n": 58}, {"name": "Lesser spotted eagle", "sci": "Aquila pomarina", "cls": "Aves", "act": 26.1, "est": 24.7, "n": 84}, {"name": "Tufted duck", "sci": "Aythya fuligula", "cls": "Aves", "act": 45.2, "est": 10.5, "n": 207}, {"name": "Cackling goose", "sci": "Branta hutchinsii", "cls": "Aves", "act": 18.3, "est": 15.1, "n": 58}, {"name": "Silver gull", "sci": "Chroicocephalus novaehollandiae", "cls": "Aves", "act": 28.8, "est": 12.2, "n": 58}, {"name": "Common wood-pigeon", "sci": "Columba palumbus", "cls": "Aves", "act": 17.7, "est": 10.6, "n": 146}, {"name": "Carrion crow", "sci": "Corvus corone", "cls": "Aves", "act": 19.2, "est": 13.1, "n": 58}, {"name": "Common cuckoo, or Eurasian cuckoo", "sci": "Cuculus canorus", "cls": "Aves", "act": 12.9, "est": 11.7, "n": 123}, {"name": "Atlantic puffin", "sci": "Fratercula arctica", "cls": "Aves", "act": 45.0, "est": 17.1, "n": 58}, {"name": "Eurasian jay", "sci": "Garrulus glandarius", "cls": "Aves", "act": 17.9, "est": 12.1, "n": 41}, {"name": "Laughing gull", "sci": "Leucophaeus atricilla", "cls": "Aves", "act": 22.0, "est": 13.5, "n": 41}, {"name": "Superb lyrebird", "sci": "Menura novaehollandiae", "cls": "Aves", "act": 17.9, "est": 13.4, "n": 142}, {"name": "Akohekohe, or Crested honeycreeper", "sci": "Palmeria dolei", "cls": "Aves", "act": 9.2, "est": 8.5, "n": 88}, {"name": "Great tit", "sci": "Parus major", "cls": "Aves", "act": 15.4, "est": 7.2, "n": 84}, {"name": "Australian pelican", "sci": "Pelecanus conspicillatus", "cls": "Aves", "act": 26.1, "est": 19.7, "n": 58}, {"name": "Laysan albatross", "sci": "Phoebastria immutabilis", "cls": "Aves", "act": 70.0, "est": 32.8, "n": 41}, {"name": "Steller's eider", "sci": "Polysticta stelleri", "cls": "Aves", "act": 23.0, "est": 11.1, "n": 88}, {"name": "Tooth-billed bowerbird", "sci": "Scenopoeetes dentirostris", "cls": "Aves", "act": 22.0, "est": 10.8, "n": 84}, {"name": "Great skua", "sci": "Stercorarius skua", "cls": "Aves", "act": 35.9, "est": 13.5, "n": 123}, {"name": "Tawny owl", "sci": "Strix aluco", "cls": "Aves", "act": 22.4, "est": 25.2, "n": 181}, {"name": "Brown thrasher", "sci": "Toxostoma rufum", "cls": "Aves", "act": 12.8, "est": 9.6, "n": 58}, {"name": "Barn owl", "sci": "Tyto alba", "cls": "Aves", "act": 34.0, "est": 22.0, "n": 88}, {"name": "Iiwi", "sci": "Vestiaria coccinea", "cls": "Aves", "act": 8.8, "est": 11.9, "n": 88}, {"name": "Sea lamprey", "sci": "Petromyzon marinus", "cls": "Cephalaspidomorphi", "act": 9.0, "est": 12.1, "n": 57}, {"name": "Blacknose shark", "sci": "Carcharhinus acronotus", "cls": "Chondrichthyes", "act": 19.0, "est": 42.4, "n": 199}, {"name": "Basking shark", "sci": "Cetorhinus maximus", "cls": "Chondrichthyes", "act": 32.0, "est": 50.5, "n": 102}, {"name": "Southern stingray", "sci": "Dasyatis americana", "cls": "Chondrichthyes", "act": 18.0, "est": 24.1, "n": 58}, {"name": "Tiger shark", "sci": "Galeocerdo cuvier", "cls": "Chondrichthyes", "act": 50.0, "est": 48.0, "n": 81}, {"name": "Giant manta", "sci": "Manta birostris", "cls": "Chondrichthyes", "act": 20.0, "est": 29.3, "n": 56}, {"name": "Bat ray", "sci": "Myliobatis californica", "cls": "Chondrichthyes", "act": 24.0, "est": 24.1, "n": 88}, {"name": "Lemon shark", "sci": "Negaprion brevirostris", "cls": "Chondrichthyes", "act": 20.0, "est": 37.6, "n": 56}, {"name": "Small-spotted catshark", "sci": "Scyliorhinus canicula", "cls": "Chondrichthyes", "act": 12.0, "est": 22.1, "n": 58}, {"name": "Leopard shark", "sci": "Triakis semifasciata", "cls": "Chondrichthyes", "act": 30.0, "est": 32.5, "n": 58}, {"name": "European sturgeon", "sci": "Acipenser sturio", "cls": "Chondrostei", "act": 100.0, "est": 30.5, "n": 58}, {"name": "Binturong", "sci": "Arctictis binturong", "cls": "Mammalia", "act": 27.0, "est": 23.5, "n": 83}, {"name": "Babirusa", "sci": "Babyrousa babyrussa", "cls": "Mammalia", "act": 22.9, "est": 22.8, "n": 88}, {"name": "Bowhead whale", "sci": "Balaena mysticetus", "cls": "Mammalia", "act": 211.0, "est": 166.5, "n": 25}, {"name": "Blue whale", "sci": "Balaenoptera musculus", "cls": "Mammalia", "act": 110.0, "est": 86.9, "n": 289}, {"name": "American bison", "sci": "Bison bison", "cls": "Mammalia", "act": 33.5, "est": 43.3, "n": 83}, {"name": "Domestic dog", "sci": "Canis familiaris", "cls": "Mammalia", "act": 27.0, "est": 19.1, "n": 41}, {"name": "Gray wolf", "sci": "Canis lupus", "cls": "Mammalia", "act": 20.6, "est": 25.1, "n": 84}, {"name": "Markhor", "sci": "Capra falconeri", "cls": "Mammalia", "act": 19.1, "est": 30.9, "n": 88}, {"name": "Western roe deer", "sci": "Capreolus capreolus", "cls": "Mammalia", "act": 17.5, "est": 21.6, "n": 84}, {"name": "Long-tailed chinchilla", "sci": "Chinchilla lanigera", "cls": "Mammalia", "act": 17.2, "est": 9.2, "n": 84}, {"name": "Forest dormouse", "sci": "Dryomys nitedula", "cls": "Mammalia", "act": 4.1, "est": 5.1, "n": 84}, {"name": "Pere David's deer", "sci": "Elaphurus davidianus", "cls": "Mammalia", "act": 27.5, "est": 37.6, "n": 99}, {"name": "North American porcupine", "sci": "Erethizon dorsatus", "cls": "Mammalia", "act": 23.4, "est": 17.2, "n": 142}, {"name": "Western European hedgehog", "sci": "Erinaceus europaeus", "cls": "Mammalia", "act": 11.7, "est": 8.5, "n": 99}, {"name": "Giraffe", "sci": "Giraffa camelopardalis", "cls": "Mammalia", "act": 39.5, "est": 44.1, "n": 97}, {"name": "Fat dormouse", "sci": "Glis glis", "cls": "Mammalia", "act": 8.7, "est": 5.2, "n": 99}, {"name": "Gray seal", "sci": "Halichoerus grypus", "cls": "Mammalia", "act": 42.9, "est": 27.6, "n": 41}, {"name": "Dwarf mongoose", "sci": "Helogale parvula", "cls": "Mammalia", "act": 20.0, "est": 15.2, "n": 172}, {"name": "Naked mole-rat", "sci": "Heterocephalus glaber", "cls": "Mammalia", "act": 31.0, "est": 14.0, "n": 123}, {"name": "Human", "sci": "Homo sapiens", "cls": "Mammalia", "act": 122.5, "est": 115.2, "n": 463}, {"name": "Atlantic white-sided dolphin", "sci": "Lagenorhynchus acutus", "cls": "Mammalia", "act": 27.0, "est": 39.7, "n": 83}, {"name": "Northern hairy-nosed wombat", "sci": "Lasiorhinus krefftii", "cls": "Mammalia", "act": 30.0, "est": 18.8, "n": 142}, {"name": "Gerenuk", "sci": "Litocranius walleri", "cls": "Mammalia", "act": 17.3, "est": 21.5, "n": 99}, {"name": "European otter", "sci": "Lutra lutra", "cls": "Mammalia", "act": 18.2, "est": 17.8, "n": 84}, {"name": "Bobcat", "sci": "Lynx rufus", "cls": "Mammalia", "act": 32.3, "est": 26.7, "n": 99}, {"name": "Western gray kangaroo", "sci": "Macropus fuliginosus", "cls": "Mammalia", "act": 23.2, "est": 31.3, "n": 96}, {"name": "Kirk's dik-dik", "sci": "Madoqua kirkii", "cls": "Mammalia", "act": 17.3, "est": 15.5, "n": 123}, {"name": "American marten", "sci": "Martes americana", "cls": "Mammalia", "act": 17.8, "est": 12.7, "n": 84}, {"name": "Greater false vampire bat", "sci": "Megaderma lyra", "cls": "Mammalia", "act": 14.0, "est": 11.9, "n": 125}, {"name": "Humpback whale", "sci": "Megaptera novaeangliae", "cls": "Mammalia", "act": 95.0, "est": 66.4, "n": 56}, {"name": "European badger, or Old World badger", "sci": "Meles meles", "cls": "Mammalia", "act": 18.6, "est": 16.8, "n": 140}, {"name": "Old World harvest mouse", "sci": "Micromys minutus", "cls": "Mammalia", "act": 3.8, "est": 4.0, "n": 84}, {"name": "Narwhal", "sci": "Monodon monoceros", "cls": "Mammalia", "act": 50.0, "est": 54.7, "n": 82}, {"name": "Hazel dormouse", "sci": "Muscardinus avellanarius", "cls": "Mammalia", "act": 5.3, "est": 5.3, "n": 98}, {"name": "Brandt's bat", "sci": "Myotis brandtii", "cls": "Mammalia", "act": 41.0, "est": 9.4, "n": 99}, {"name": "Little brown bat", "sci": "Myotis lucifugus", "cls": "Mammalia", "act": 34.0, "est": 10.3, "n": 84}, {"name": "American mink", "sci": "Neovison vison", "cls": "Mammalia", "act": 11.4, "est": 11.8, "n": 99}, {"name": "Killer whale", "sci": "Orcinus orca", "cls": "Mammalia", "act": 90.0, "est": 59.0, "n": 235}, {"name": "Mountain goat", "sci": "Oreamnos americanus", "cls": "Mammalia", "act": 20.8, "est": 26.4, "n": 84}, {"name": "European rabbit", "sci": "Oryctolagus cuniculus", "cls": "Mammalia", "act": 13.0, "est": 11.1, "n": 172}, {"name": "Muskox", "sci": "Ovibos moschatus", "cls": "Mammalia", "act": 27.4, "est": 43.8, "n": 96}, {"name": "Pygmy chimpanzee, or Bonobo", "sci": "Pan paniscus", "cls": "Mammalia", "act": 55.0, "est": 59.1, "n": 123}, {"name": "Chimpanzee", "sci": "Pan troglodytes", "cls": "Mammalia", "act": 68.0, "est": 60.0, "n": 142}, {"name": "Lion", "sci": "Panthera leo", "cls": "Mammalia", "act": 28.0, "est": 31.6, "n": 41}, {"name": "Tiger", "sci": "Panthera tigris", "cls": "Mammalia", "act": 26.3, "est": 40.3, "n": 97}, {"name": "Eastern pipistrelle", "sci": "Perimyotis subflavus", "cls": "Mammalia", "act": 14.8, "est": 14.9, "n": 58}, {"name": "White-footed mouse", "sci": "Peromyscus leucopus", "cls": "Mammalia", "act": 7.9, "est": 4.9, "n": 157}, {"name": "Deer mouse", "sci": "Peromyscus maniculatus", "cls": "Mammalia", "act": 8.3, "est": 5.1, "n": 84}, {"name": "Harbor seal", "sci": "Phoca vitulina", "cls": "Mammalia", "act": 47.6, "est": 31.0, "n": 84}, {"name": "Rat", "sci": "Rattus rattus", "cls": "Mammalia", "act": 4.2, "est": 7.0, "n": 207}, {"name": "Great gerbil", "sci": "Rhombomys opimus", "cls": "Mammalia", "act": 4.5, "est": 5.7, "n": 98}, {"name": "Striped dolphin", "sci": "Stenella coeruleoalba", "cls": "Mammalia", "act": 57.5, "est": 43.5, "n": 97}, {"name": "West Indian manatee", "sci": "Trichechus manatus", "cls": "Mammalia", "act": 69.0, "est": 51.3, "n": 138}, {"name": "Polar bear", "sci": "Ursus maritimus", "cls": "Mammalia", "act": 43.8, "est": 43.2, "n": 241}, {"name": "Pale fox", "sci": "Vulpes pallida", "cls": "Mammalia", "act": 16.0, "est": 14.7, "n": 99}, {"name": "Red fox", "sci": "Vulpes vulpes", "cls": "Mammalia", "act": 21.3, "est": 18.8, "n": 58}, {"name": "California sea lion", "sci": "Zalophus californianus", "cls": "Mammalia", "act": 35.7, "est": 32.2, "n": 84}, {"name": "Slow worm", "sci": "Anguis fragilis", "cls": "Reptilia", "act": 54.0, "est": 10.9, "n": 187}, {"name": "Loggerhead sea turtle", "sci": "Caretta caretta", "cls": "Reptilia", "act": 77.0, "est": 80.1, "n": 133}, {"name": "Common snake-necked turtle", "sci": "Chelodina longicollis", "cls": "Reptilia", "act": 37.0, "est": 50.7, "n": 82}, {"name": "Common snapping turtle", "sci": "Chelydra serpentina", "cls": "Reptilia", "act": 47.0, "est": 60.8, "n": 128}, {"name": "Painted turtle", "sci": "Chrysemys picta", "cls": "Reptilia", "act": 61.0, "est": 68.8, "n": 116}, {"name": "Timber rattlesnake", "sci": "Crotalus horridus", "cls": "Reptilia", "act": 30.2, "est": 22.8, "n": 58}, {"name": "Chicken turtle", "sci": "Deirochelys reticularia", "cls": "Reptilia", "act": 24.0, "est": 53.9, "n": 158}, {"name": "Leopard gecko", "sci": "Eublepharis macularius", "cls": "Reptilia", "act": 28.5, "est": 14.0, "n": 146}, {"name": "Mud snake, or Western mud snake", "sci": "Farancia abacura", "cls": "Reptilia", "act": 19.0, "est": 20.2, "n": 87}, {"name": "Jeweled lizard", "sci": "Timon lepidus", "cls": "Reptilia", "act": 17.0, "est": 18.2, "n": 142}, {"name": "Asp viper", "sci": "Vipera aspis", "cls": "Reptilia", "act": 25.0, "est": 23.1, "n": 142}, {"name": "Australian ruff", "sci": "Arripis georgianus", "cls": "Teleostei", "act": 7.0, "est": 5.3, "n": 84}, {"name": "Common dolphinfish", "sci": "Coryphaena hippurus", "cls": "Teleostei", "act": 4.0, "est": 21.1, "n": 84}, {"name": "European seabass", "sci": "Dicentrarchus labrax", "cls": "Teleostei", "act": 15.0, "est": 9.1, "n": 84}, {"name": "Sea perch", "sci": "Helicolenus percoides", "cls": "Teleostei", "act": 42.0, "est": 11.6, "n": 58}, {"name": "Blue catfish", "sci": "Ictalurus furcatus", "cls": "Teleostei", "act": 21.0, "est": 27.1, "n": 58}, {"name": "Black buffalo", "sci": "Ictiobus niger", "cls": "Teleostei", "act": 24.0, "est": 14.2, "n": 122}, {"name": "Goosefish", "sci": "Lophius americanus", "cls": "Teleostei", "act": 30.0, "est": 26.3, "n": 41}, {"name": "Striped bass", "sci": "Morone saxatilis", "cls": "Teleostei", "act": 30.0, "est": 9.8, "n": 41}, {"name": "Eurasian perch", "sci": "Perca fluviatilis", "cls": "Teleostei", "act": 22.0, "est": 11.3, "n": 88}, {"name": "Turbot", "sci": "Scophthalmus maximus", "cls": "Teleostei", "act": 26.0, "est": 14.0, "n": 88}, {"name": "Rougheye rockfish", "sci": "Sebastes aleutianus", "cls": "Teleostei", "act": 205.0, "est": 205.0, "n": 1}, {"name": "Common sole", "sci": "Solea solea", "cls": "Teleostei", "act": 27.0, "est": 13.2, "n": 58}, {"name": "Sickle pomfret", "sci": "Taractichthys steindachneri", "cls": "Teleostei", "act": 8.0, "est": 16.1, "n": 88}];
 
-    // Verified head/face coordinates (x: 0..1 from left, y: 0..1 from top)
     const FACE_FOCAL_OVERRIDES = {
-      "European sturgeon": [0.22, 0.48],
-      "Atlantic puffin": [0.50, 0.28],
-      "Harbor seal": [0.48, 0.34],
-      "American toad": [0.45, 0.38],
-      "Cane toad": [0.42, 0.40],
-      "Eastern red-backed salamander": [0.28, 0.45],
-      "Common sole": [0.26, 0.42],
-      "Hellbender": [0.34, 0.44],
-      "Barn owl": [0.50, 0.25],
-      "Black buffalo": [0.25, 0.48],
-      "Australian pelican": [0.45, 0.28],
-      "American marten": [0.48, 0.32],
-      "Brown thrasher": [0.45, 0.28],
-      "Northern leopard frog": [0.42, 0.35],
-      "Asp viper": [0.40, 0.42],
-      "Chicken turtle": [0.36, 0.36],
-      "West Indian manatee": [0.35, 0.42],
-      "Blacknose shark": [0.22, 0.46],
-      "Basking shark": [0.24, 0.46],
-      "Common dolphinfish": [0.24, 0.44],
-      "Bowhead whale": [0.28, 0.46],
-      "Blue whale": [0.24, 0.48],
-      "Humpback whale": [0.32, 0.44],
-      "Killer whale": [0.34, 0.42],
-      "Narwhal": [0.26, 0.46],
-      "Atlantic white-sided dolphin": [0.26, 0.45],
-      "Striped dolphin": [0.26, 0.45],
-      "Rougheye rockfish": [0.26, 0.45],
-      "Olm": [0.25, 0.46],
-      "Naked mole-rat": [0.34, 0.44],
-      "Brandt's bat": [0.50, 0.34],
-      "Little brown bat": [0.50, 0.34],
-      "Greater false vampire bat": [0.50, 0.34],
-      "Giraffe": [0.50, 0.20],
-      "Laysan albatross": [0.48, 0.26],
-      "Lemon shark": [0.24, 0.46],
-      "Tiger shark": [0.25, 0.46],
-      "Small-spotted catshark": [0.26, 0.46],
-      "Leopard shark": [0.26, 0.46],
-      "Giant manta": [0.46, 0.42],
-      "Bat ray": [0.44, 0.42],
-      "Southern stingray": [0.44, 0.42],
-      "Sea lamprey": [0.26, 0.48],
-      "Blue catfish": [0.25, 0.46],
-      "Australian ruff": [0.25, 0.46],
-      "European seabass": [0.25, 0.46],
-      "Sea perch": [0.26, 0.46],
-      "Goosefish": [0.36, 0.44],
-      "Striped bass": [0.25, 0.46],
-      "Eurasian perch": [0.25, 0.46],
-      "Turbot": [0.30, 0.44],
-      "Sickle pomfret": [0.26, 0.46],
-      "Slow worm": [0.28, 0.46],
-      "Loggerhead sea turtle": [0.34, 0.40],
-      "Common snake-necked turtle": [0.30, 0.42],
-      "Common snapping turtle": [0.34, 0.40],
-      "Painted turtle": [0.34, 0.40],
-      "Timber rattlesnake": [0.42, 0.40],
-      "Leopard gecko": [0.36, 0.40],
-      "Mud snake, or Western mud snake": [0.34, 0.42],
-      "Jeweled lizard": [0.34, 0.40],
-      "American bison": [0.36, 0.38],
-      "Gray wolf": [0.45, 0.32],
-      "Chimpanzee": [0.50, 0.30],
-      "Pygmy chimpanzee, or Bonobo": [0.50, 0.30],
-      "Human": [0.50, 0.28],
-      "Lion": [0.48, 0.32],
-      "Tiger": [0.46, 0.34],
-      "Polar bear": [0.44, 0.34],
-      "European otter": [0.42, 0.36],
-      "North American porcupine": [0.38, 0.40],
-      "Northern hairy-nosed wombat": [0.40, 0.40],
-      "Babirusa": [0.38, 0.38],
-      "Binturong": [0.44, 0.34],
-      "Markhor": [0.44, 0.28],
-      "Western roe deer": [0.44, 0.28],
-      "Pere David's deer": [0.42, 0.28],
-      "Gerenuk": [0.48, 0.24],
-      "Kirk's dik-dik": [0.46, 0.30],
-      "Mountain goat": [0.44, 0.28],
-      "Muskox": [0.38, 0.38],
-      "Western gray kangaroo": [0.46, 0.26],
-      "Gray seal": [0.44, 0.36],
-      "California sea lion": [0.46, 0.32],
-      "Dwarf mongoose": [0.44, 0.36],
-      "Red fox": [0.46, 0.32],
-      "Pale fox": [0.46, 0.32],
-      "Bobcat": [0.46, 0.32],
-      "European badger, or Old World badger": [0.40, 0.38],
-      "Western European hedgehog": [0.38, 0.44],
-      "European rabbit": [0.44, 0.36],
-      "Long-tailed chinchilla": [0.46, 0.36],
-      "Forest dormouse": [0.44, 0.38],
-      "Fat dormouse": [0.44, 0.38],
-      "Hazel dormouse": [0.44, 0.38],
-      "Old World harvest mouse": [0.44, 0.38],
-      "White-footed mouse": [0.44, 0.38],
-      "Deer mouse": [0.44, 0.38],
-      "Rat": [0.40, 0.40],
-      "Great gerbil": [0.44, 0.36],
-      "Tiger salamander": [0.36, 0.42],
-      "Eurasian sparrowhawk": [0.48, 0.26],
-      "Wood duck": [0.44, 0.30],
-      "Lesser spotted eagle": [0.48, 0.25],
-      "Tufted duck": [0.44, 0.32],
-      "Cackling goose": [0.44, 0.28],
-      "Silver gull": [0.46, 0.28],
-      "Common wood-pigeon": [0.46, 0.28],
-      "Carrion crow": [0.46, 0.28],
-      "Common cuckoo, or Eurasian cuckoo": [0.44, 0.30],
-      "Eurasian jay": [0.46, 0.28],
-      "Laughing gull": [0.46, 0.28],
-      "Superb lyrebird": [0.46, 0.28],
-      "Akohekohe, or Crested honeycreeper": [0.46, 0.28],
-      "Great tit": [0.48, 0.28],
-      "Steller's eider": [0.44, 0.32],
-      "Tooth-billed bowerbird": [0.46, 0.28],
-      "Great skua": [0.46, 0.28],
-      "Tawny owl": [0.50, 0.25],
-      "Iiwi": [0.46, 0.28]
+      "European sturgeon": [0.22, 0.48], "Atlantic puffin": [0.50, 0.28], "Harbor seal": [0.48, 0.34],
+      "American toad": [0.45, 0.38], "Cane toad": [0.42, 0.40], "Eastern red-backed salamander": [0.28, 0.45],
+      "Common sole": [0.26, 0.42], "Hellbender": [0.34, 0.44], "Barn owl": [0.50, 0.25],
+      "Black buffalo": [0.25, 0.48], "Australian pelican": [0.45, 0.28], "American marten": [0.48, 0.32],
+      "Brown thrasher": [0.45, 0.28], "Northern leopard frog": [0.42, 0.35], "Asp viper": [0.40, 0.42],
+      "Chicken turtle": [0.36, 0.36], "West Indian manatee": [0.35, 0.42], "Blacknose shark": [0.22, 0.46],
+      "Basking shark": [0.24, 0.46], "Common dolphinfish": [0.24, 0.44], "Bowhead whale": [0.28, 0.46],
+      "Blue whale": [0.24, 0.48], "Humpback whale": [0.32, 0.44], "Killer whale": [0.34, 0.42],
+      "Narwhal": [0.26, 0.46], "Atlantic white-sided dolphin": [0.26, 0.45], "Striped dolphin": [0.26, 0.45],
+      "Rougheye rockfish": [0.26, 0.45], "Olm": [0.32, 0.44], "Naked mole-rat": [0.34, 0.44],
+      "Brandt's bat": [0.50, 0.34], "Little brown bat": [0.50, 0.34], "Greater false vampire bat": [0.50, 0.34],
+      "Giraffe": [0.50, 0.20], "Laysan albatross": [0.48, 0.26], "Lemon shark": [0.24, 0.46],
+      "Tiger shark": [0.25, 0.46], "Small-spotted catshark": [0.26, 0.46], "Leopard shark": [0.26, 0.46],
+      "Giant manta": [0.46, 0.42], "Bat ray": [0.44, 0.42], "Southern stingray": [0.44, 0.42],
+      "Sea lamprey": [0.26, 0.48], "Blue catfish": [0.25, 0.46], "Australian ruff": [0.25, 0.46],
+      "European seabass": [0.25, 0.46], "Sea perch": [0.26, 0.46], "Goosefish": [0.36, 0.44],
+      "Striped bass": [0.25, 0.46], "Eurasian perch": [0.25, 0.46], "Turbot": [0.30, 0.44],
+      "Sickle pomfret": [0.26, 0.46], "Slow worm": [0.28, 0.46], "Loggerhead sea turtle": [0.34, 0.40],
+      "Common snake-necked turtle": [0.30, 0.42], "Common snapping turtle": [0.34, 0.40], "Painted turtle": [0.34, 0.40],
+      "Timber rattlesnake": [0.42, 0.40], "Leopard gecko": [0.36, 0.40], "Mud snake, or Western mud snake": [0.34, 0.42],
+      "Jeweled lizard": [0.34, 0.40], "American bison": [0.36, 0.38], "Gray wolf": [0.45, 0.32],
+      "Chimpanzee": [0.50, 0.30], "Pygmy chimpanzee, or Bonobo": [0.50, 0.30], "Human": [0.50, 0.28],
+      "Lion": [0.48, 0.32], "Tiger": [0.46, 0.34], "Polar bear": [0.44, 0.34],
+      "European otter": [0.42, 0.36], "North American porcupine": [0.38, 0.40], "Northern hairy-nosed wombat": [0.40, 0.40],
+      "Babirusa": [0.44, 0.36], "Binturong": [0.44, 0.34], "Markhor": [0.44, 0.28],
+      "Western roe deer": [0.44, 0.28], "Pere David's deer": [0.42, 0.28], "Gerenuk": [0.48, 0.24],
+      "Kirk's dik-dik": [0.46, 0.30], "Mountain goat": [0.44, 0.28], "Muskox": [0.38, 0.38],
+      "Western gray kangaroo": [0.46, 0.26], "Gray seal": [0.44, 0.36], "California sea lion": [0.46, 0.32],
+      "Dwarf mongoose": [0.44, 0.36], "Red fox": [0.46, 0.32], "Pale fox": [0.46, 0.32],
+      "Bobcat": [0.46, 0.32], "European badger, or Old World badger": [0.40, 0.38], "Western European hedgehog": [0.38, 0.44],
+      "European rabbit": [0.44, 0.36], "Long-tailed chinchilla": [0.46, 0.36], "Forest dormouse": [0.44, 0.38],
+      "Fat dormouse": [0.44, 0.38], "Hazel dormouse": [0.44, 0.38], "Old World harvest mouse": [0.44, 0.38],
+      "White-footed mouse": [0.44, 0.38], "Deer mouse": [0.44, 0.38], "Rat": [0.40, 0.40],
+      "Great gerbil": [0.44, 0.36], "Tiger salamander": [0.36, 0.42], "Eurasian sparrowhawk": [0.48, 0.26],
+      "Wood duck": [0.44, 0.30], "Lesser spotted eagle": [0.48, 0.25], "Tufted duck": [0.44, 0.32],
+      "Cackling goose": [0.44, 0.28], "Silver gull": [0.46, 0.28], "Common wood-pigeon": [0.46, 0.28],
+      "Carrion crow": [0.46, 0.28], "Common cuckoo, or Eurasian cuckoo": [0.44, 0.30], "Eurasian jay": [0.46, 0.28],
+      "Laughing gull": [0.46, 0.28], "Superb lyrebird": [0.46, 0.28], "Akohekohe, or Crested honeycreeper": [0.48, 0.30],
+      "Great tit": [0.48, 0.28], "Steller's eider": [0.44, 0.32], "Tooth-billed bowerbird": [0.46, 0.28],
+      "Great skua": [0.46, 0.28], "Tawny owl": [0.50, 0.25], "Iiwi": [0.46, 0.28]
     };
 
     const CLASS_DEFAULT_FOCAL = {
-      "Aves": [0.46, 0.28],
-      "Mammalia": [0.44, 0.35],
-      "Amphibia": [0.38, 0.40],
-      "Reptilia": [0.36, 0.40],
-      "Chondrichthyes": [0.25, 0.46],
-      "Chondrostei": [0.24, 0.48],
-      "Teleostei": [0.26, 0.46],
-      "Cephalaspidomorphi": [0.26, 0.48]
+      "Aves": [0.46, 0.28], "Mammalia": [0.44, 0.35], "Amphibia": [0.38, 0.40], "Reptilia": [0.36, 0.40],
+      "Chondrichthyes": [0.25, 0.46], "Chondrostei": [0.24, 0.48], "Teleostei": [0.26, 0.46], "Cephalaspidomorphi": [0.26, 0.48]
     };
 
     const WIKI_TITLE_OVERRIDES = {
-      "European sturgeon": "European sea sturgeon",
-      "Common dolphinfish": "Mahi-mahi",
-      "Giant manta": "Giant oceanic manta ray",
-      "Jeweled lizard": "Ocellated lizard",
-      "Eastern red-backed salamander": "Red-backed salamander",
-      "Pygmy chimpanzee, or Bonobo": "Bonobo",
-      "Common cuckoo, or Eurasian cuckoo": "Common cuckoo",
-      "European badger, or Old World badger": "European badger",
-      "Mud snake, or Western mud snake": "Mud snake",
-      "Akohekohe, or Crested honeycreeper": "ʻĀkohekohe",
+      "European sturgeon": "European sea sturgeon", "Common dolphinfish": "Mahi-mahi",
+      "Giant manta": "Giant oceanic manta ray", "Jeweled lizard": "Ocellated lizard",
+      "Eastern red-backed salamander": "Red-backed salamander", "Pygmy chimpanzee, or Bonobo": "Bonobo",
+      "Common cuckoo, or Eurasian cuckoo": "Common cuckoo", "European badger, or Old World badger": "European badger",
+      "Mud snake, or Western mud snake": "Mud snake", "Akohekohe, or Crested honeycreeper": "ʻĀkohekohe",
       "North American porcupine": "North American porcupine"
     };
 
-    // Direct Wikimedia Commons file overrides for species whose Wikipedia pageimage is a map or missing
     const COMMONS_FILE_OVERRIDES = {
       "Proteus anguinus": "Proteus_anguinus_01.jpg",
       "Babyrousa babyrussa": "Babyrousa_babyrussa_2.jpg",
@@ -349,22 +317,45 @@
     };
 
     let deck = [], currentSpecies = null;
+    let sessionRounds = 0, sessionLogErrors = [];
     const imageCache = new Map();
+
     const ambientEl = document.getElementById("ambient-bg");
     const photoEl = document.getElementById("animal-photo");
     const fallbackEl = document.getElementById("fallback-svg-wrap");
     const headerEl = document.getElementById("species-header");
     const topScrimEl = document.getElementById("top-scrim");
+    const sessionStatsEl = document.getElementById("session-stats");
+    const resetSessionBtnEl = document.getElementById("reset-session-btn");
     const commonNameEl = document.getElementById("common-name");
     const latinNameEl = document.getElementById("latin-name");
+    const classBadgeEl = document.getElementById("class-badge");
     const centerRevealEl = document.getElementById("center-reveal");
     const trueAgeNumberEl = document.getElementById("true-age-number");
     const trueAgeUnitEl = document.getElementById("true-age-unit");
+    const verdictBannerEl = document.getElementById("verdict-banner");
     const comparisonPillEl = document.getElementById("comparison-pill");
     const guessFormEl = document.getElementById("guess-form");
     const inputEl = document.getElementById("lifespan-input");
     const nextBtnEl = document.getElementById("next-btn");
     const wikiSourceLinkEl = document.getElementById("wiki-source-link");
+
+    function updateSessionBanner() {
+      const roundNum = sessionRounds + 1;
+      if (sessionLogErrors.length === 0) {
+        sessionStatsEl.textContent = `Animal ${roundNum} • Ready`;
+      } else {
+        const meanAbsLog = sessionLogErrors.reduce((a, b) => a + b, 0) / sessionLogErrors.length;
+        const calPct = Math.round(Math.exp(-meanAbsLog) * 100);
+        sessionStatsEl.textContent = `Animal ${roundNum} • Calibration: ${calPct}%`;
+      }
+    }
+
+    resetSessionBtnEl.addEventListener("click", () => {
+      sessionRounds = 0;
+      sessionLogErrors = [];
+      loadRound();
+    });
 
     function refillDeck() {
       deck = [...SPECIES_DATA];
@@ -374,7 +365,10 @@
       }
     }
     function drawNextSpecies() { if (deck.length === 0) refillDeck(); return deck.pop(); }
-    function peekNextSpecies() { if (deck.length === 0) refillDeck(); return deck[deck.length - 1]; }
+    function peekUpcoming(n = 3) {
+      if (deck.length < n) refillDeck();
+      return deck.slice(-n).reverse();
+    }
 
     function buildSourceRecord(page) {
       const thumb = page?.thumbnail?.source;
@@ -386,34 +380,8 @@
       return { thumb, sourceUrl, label: "Photo credit" };
     }
 
-    async function queryWikiThumb(title) {
-      const url = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=pageimages&piprop=thumbnail|name&format=json&pithumbsize=1000&redirects=1&origin=*`;
-      const res = await fetch(url);
-      if (!res.ok) return null;
-      const pages = (await res.json())?.query?.pages;
-      if (!pages) return null;
-      for (const key of Object.keys(pages)) {
-        const rec = buildSourceRecord(pages[key]);
-        if (rec) return rec;
-      }
-      return null;
-    }
-
-    async function searchWikiThumb(query) {
-      const url = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=3&prop=pageimages&piprop=thumbnail|name&format=json&pithumbsize=1000&origin=*`;
-      const res = await fetch(url);
-      if (!res.ok) return null;
-      const pages = (await res.json())?.query?.pages;
-      if (!pages) return null;
-      for (const p of Object.values(pages).sort((a, b) => (a.index || 99) - (b.index || 99))) {
-        const rec = buildSourceRecord(p);
-        if (rec) return rec;
-      }
-      return null;
-    }
-
     async function queryCommonsFile(fileName) {
-      const url = `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent("File:" + fileName)}&prop=imageinfo&iiprop=url&iiurlwidth=1000&format=json&origin=*`;
+      const url = `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent("File:" + fileName)}&prop=imageinfo&iiprop=url&iiurlwidth=800&format=json&origin=*`;
       const res = await fetch(url);
       if (!res.ok) return null;
       const pages = (await res.json())?.query?.pages;
@@ -431,12 +399,42 @@
       return null;
     }
 
+    async function queryWikiThumb(title) {
+      const url = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=pageimages&piprop=thumbnail|name&format=json&pithumbsize=800&redirects=1&origin=*`;
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const pages = (await res.json())?.query?.pages;
+      if (!pages) return null;
+      for (const key of Object.keys(pages)) {
+        const rec = buildSourceRecord(pages[key]);
+        if (rec) return rec;
+      }
+      return null;
+    }
+
+    async function searchWikiThumb(query) {
+      const url = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=3&prop=pageimages&piprop=thumbnail|name&format=json&pithumbsize=800&origin=*`;
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const pages = (await res.json())?.query?.pages;
+      if (!pages) return null;
+      for (const p of Object.values(pages).sort((a, b) => (a.index || 99) - (b.index || 99))) {
+        const rec = buildSourceRecord(p);
+        if (rec) return rec;
+      }
+      return null;
+    }
+
     async function resolveSpeciesImage(sp) {
       if (imageCache.has(sp.sci)) return imageCache.get(sp.sci);
       if (COMMONS_FILE_OVERRIDES[sp.sci]) {
         try {
           const rec = await queryCommonsFile(COMMONS_FILE_OVERRIDES[sp.sci]);
-          if (rec) { imageCache.set(sp.sci, rec); return rec; }
+          if (rec) {
+            imageCache.set(sp.sci, rec);
+            const pre = new Image(); pre.src = rec.thumb;
+            return rec;
+          }
         } catch (_) {}
       }
       const candidates = [];
@@ -445,9 +443,23 @@
       if (sp.name.includes(", or ")) sp.name.split(", or ").forEach(p => candidates.push(p.trim()));
       else candidates.push(sp.name);
       for (const title of candidates) {
-        try { const rec = await queryWikiThumb(title); if (rec) { imageCache.set(sp.sci, rec); return rec; } } catch (_) {}
+        try {
+          const rec = await queryWikiThumb(title);
+          if (rec) {
+            imageCache.set(sp.sci, rec);
+            const pre = new Image(); pre.src = rec.thumb;
+            return rec;
+          }
+        } catch (_) {}
       }
-      try { const searched = await searchWikiThumb(`${sp.sci} animal`); if (searched) { imageCache.set(sp.sci, searched); return searched; } } catch (_) {}
+      try {
+        const searched = await searchWikiThumb(`${sp.sci} animal`);
+        if (searched) {
+          imageCache.set(sp.sci, searched);
+          const pre = new Image(); pre.src = searched.thumb;
+          return searched;
+        }
+      } catch (_) {}
       imageCache.set(sp.sci, null);
       return null;
     }
@@ -459,7 +471,6 @@
       const imgAspect = natW / natH;
       const viewAspect = window.innerWidth / Math.max(1, window.innerHeight);
 
-      // If a photo is ultra-wide panoramic relative to portrait screen, contain it cleanly over blurred ambient backdrop
       const isUltraWideOnPortrait = viewAspect < 0.75 && imgAspect > 1.55;
       photoEl.classList.toggle("contain-wide", isUltraWideOnPortrait);
 
@@ -471,30 +482,33 @@
         img.style.objectPosition = "50% 44%";
       }
 
-      // Sample top luminance for header text contrast
-      let isLightTop = false;
-      try {
-        if (!isUltraWideOnPortrait) {
-          const canvas = document.createElement("canvas");
-          const w = 64;
-          const h = Math.max(32, Math.round((natH / natW) * w));
-          canvas.width = w;
-          canvas.height = h;
-          const ctx = canvas.getContext("2d", { willReadFrequently: true });
-          ctx.drawImage(img, 0, 0, w, h);
-          const topData = ctx.getImageData(0, 0, w, Math.max(4, Math.floor(h * 0.22))).data;
-          let lumSum = 0, count = 0;
-          for (let i = 0; i < topData.length; i += 4) {
-            lumSum += 0.2126 * topData[i] + 0.7152 * topData[i + 1] + 0.0722 * topData[i + 2];
-            count++;
+      // Check top luminance using a separate CORS probe so main <img> never fails to render
+      const probe = new Image();
+      probe.crossOrigin = "anonymous";
+      probe.onload = () => {
+        if (currentSpecies?.sci !== sp.sci) return;
+        let isLightTop = false;
+        try {
+          if (!isUltraWideOnPortrait) {
+            const canvas = document.createElement("canvas");
+            const w = 64, h = Math.max(32, Math.round((natH / natW) * w));
+            canvas.width = w; canvas.height = h;
+            const ctx = canvas.getContext("2d", { willReadFrequently: true });
+            ctx.drawImage(probe, 0, 0, w, h);
+            const topData = ctx.getImageData(0, 0, w, Math.max(4, Math.floor(h * 0.22))).data;
+            let lumSum = 0, count = 0;
+            for (let i = 0; i < topData.length; i += 4) {
+              lumSum += 0.2126 * topData[i] + 0.7152 * topData[i + 1] + 0.0722 * topData[i + 2];
+              count++;
+            }
+            isLightTop = (count > 0 ? lumSum / count : 80) > 152;
           }
-          isLightTop = (count > 0 ? lumSum / count : 80) > 152;
-        }
-      } catch (_) {}
-
-      headerEl.classList.toggle("on-light", isLightTop);
-      headerEl.classList.toggle("on-dark", !isLightTop);
-      topScrimEl.classList.toggle("light-bg", isLightTop);
+        } catch (_) {}
+        headerEl.classList.toggle("on-light", isLightTop);
+        headerEl.classList.toggle("on-dark", !isLightTop);
+        topScrimEl.classList.toggle("light-bg", isLightTop);
+      };
+      probe.src = img.src;
     }
 
     function formatYears(val) {
@@ -503,6 +517,8 @@
 
     async function loadRound() {
       currentSpecies = drawNextSpecies();
+      updateSessionBanner();
+
       centerRevealEl.classList.remove("visible");
       nextBtnEl.classList.remove("visible");
       guessFormEl.classList.remove("hidden");
@@ -510,6 +526,7 @@
 
       commonNameEl.textContent = currentSpecies.name.split(", or ")[0];
       latinNameEl.textContent = currentSpecies.sci;
+      classBadgeEl.textContent = currentSpecies.cls;
 
       headerEl.classList.remove("on-light");
       headerEl.classList.add("on-dark");
@@ -542,8 +559,8 @@
         fallbackEl.classList.add("visible");
       }
 
-      const upcoming = peekNextSpecies();
-      if (upcoming) resolveSpeciesImage(upcoming);
+      // Preload next 3 species in background for instant transitions on conference Wi-Fi
+      peekUpcoming(3).forEach(sp => resolveSpeciesImage(sp));
     }
 
     guessFormEl.addEventListener("submit", (e) => {
@@ -551,10 +568,34 @@
       const raw = parseFloat(inputEl.value);
       if (isNaN(raw) || raw <= 0) { inputEl.focus(); return; }
       inputEl.blur();
+
       const actual = currentSpecies.act;
+      const pubEst = currentSpecies.est;
+      const userRatio = raw / actual;
+      const pubRatio = pubEst / actual;
+
+      sessionRounds += 1;
+      sessionLogErrors.push(Math.abs(Math.log(userRatio)));
+      updateSessionBanner();
+
       trueAgeNumberEl.textContent = formatYears(actual);
       trueAgeUnitEl.textContent = actual === 1 ? "Year Maximum Lifespan" : "Years Maximum Lifespan";
-      comparisonPillEl.textContent = `Your guess: ${formatYears(raw)} yrs  •  Public avg: ${formatYears(currentSpecies.est)} yrs`;
+
+      verdictBannerEl.classList.remove("accurate", "under", "over");
+      if (userRatio >= 0.8 && userRatio <= 1.2) {
+        verdictBannerEl.classList.add("accurate");
+        verdictBannerEl.textContent = `Spot on! (${userRatio.toFixed(2)}× actual lifespan)`;
+      } else if (userRatio < 0.8) {
+        verdictBannerEl.classList.add("under");
+        const factor = (actual / raw).toFixed(1).replace(/\.0$/, "");
+        verdictBannerEl.textContent = `Underestimated — lives ${factor}× longer (${userRatio.toFixed(2)}×)`;
+      } else {
+        verdictBannerEl.classList.add("over");
+        verdictBannerEl.textContent = `Overestimated — ${userRatio.toFixed(2)}× actual lifespan`;
+      }
+
+      comparisonPillEl.innerHTML = `Your guess: <strong>${formatYears(raw)} yrs</strong> (${userRatio.toFixed(2)}×) &bull; Survey avg: <strong>${formatYears(pubEst)} yrs</strong> (${pubRatio.toFixed(2)}×)`;
+
       guessFormEl.classList.add("hidden");
       centerRevealEl.classList.add("visible");
       nextBtnEl.classList.add("visible");
