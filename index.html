@@ -497,36 +497,38 @@
     }
 
     function analyzeImageAndFrame(img, sp) {
-      const [fx, fy] = FACE_FOCAL_OVERRIDES[sp.name] || CLASS_DEFAULT_FOCAL[sp.cls] || [0.42, 0.38];
+      const [baseX, baseY] = FACE_FOCAL_OVERRIDES[sp.name] || CLASS_DEFAULT_FOCAL[sp.cls] || [0.50, 0.36];
       const natW = img.naturalWidth || 1;
       const natH = img.naturalHeight || 1;
       const imgAspect = natW / natH;
       const viewAspect = window.innerWidth / Math.max(1, window.innerHeight);
 
-      const isUltraWideOnPortrait = viewAspect < 0.75 && imgAspect > 1.55;
-      photoEl.classList.toggle("contain-wide", isUltraWideOnPortrait);
+      // On portrait phones, any landscape photo (aspect > 1.18) risks slicing off off-center faces if cropped.
+      // Contain landscape photos cleanly over the blurred ambient backdrop so the full face is always centered & visible.
+      const useFullFrame = viewAspect < 0.78 && imgAspect > 1.18;
+      photoEl.classList.toggle("contain-wide", useFullFrame);
 
-      if (!isUltraWideOnPortrait) {
-        const posX = Math.round(Math.min(88, Math.max(12, fx * 100)));
-        const posY = Math.round(Math.min(75, Math.max(15, fy * 100)));
-        img.style.objectPosition = `${posX}% ${posY}%`;
+      if (useFullFrame) {
+        img.style.objectPosition = "50% 42%";
       } else {
-        img.style.objectPosition = "50% 44%";
+        img.style.objectPosition = `${Math.round(baseX * 100)}% ${Math.round(baseY * 100)}%`;
       }
 
-      // Check top luminance using a separate CORS probe so main <img> never fails to render
+      // Use a CORS probe to detect facial feature density (eyes/beak/snout) & top luminance
       const probe = new Image();
       probe.crossOrigin = "anonymous";
       probe.onload = () => {
         if (currentSpecies?.sci !== sp.sci) return;
         let isLightTop = false;
         try {
-          if (!isUltraWideOnPortrait) {
-            const canvas = document.createElement("canvas");
-            const w = 64, h = Math.max(32, Math.round((natH / natW) * w));
-            canvas.width = w; canvas.height = h;
-            const ctx = canvas.getContext("2d", { willReadFrequently: true });
-            ctx.drawImage(probe, 0, 0, w, h);
+          const canvas = document.createElement("canvas");
+          const w = 72, h = Math.max(36, Math.round((natH / natW) * w));
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext("2d", { willReadFrequently: true });
+          ctx.drawImage(probe, 0, 0, w, h);
+
+          // 1. Top luminance check for header text contrast
+          if (!useFullFrame) {
             const topData = ctx.getImageData(0, 0, w, Math.max(4, Math.floor(h * 0.22))).data;
             let lumSum = 0, count = 0;
             for (let i = 0; i < topData.length; i += 4) {
@@ -534,6 +536,40 @@
               count++;
             }
             isLightTop = (count > 0 ? lumSum / count : 80) > 152;
+          }
+
+          // 2. High-frequency local contrast (eye/face detector) for portrait/square photos
+          if (!useFullFrame) {
+            const data = ctx.getImageData(0, 0, w, h).data;
+            const lum = new Float32Array(w * h);
+            for (let i = 0; i < w * h; i++) {
+              lum[i] = 0.299 * data[i * 4] + 0.587 * data[i * 4 + 1] + 0.114 * data[i * 4 + 2];
+            }
+            let sumX = 0, sumY = 0, totalW = 0;
+            const yMax = Math.floor(h * 0.68);
+            for (let y = 2; y < yMax; y++) {
+              for (let x = 2; x < w - 2; x++) {
+                const idx = y * w + x;
+                const gx = Math.abs(lum[idx + 1] - lum[idx - 1]);
+                const gy = Math.abs(lum[idx + w] - lum[idx - w]);
+                const edge = gx + gy;
+                if (edge > 28) {
+                  // Favor upper-middle region where heads sit
+                  const verticalBias = 1.35 - (y / h);
+                  const weight = (edge * edge) * verticalBias;
+                  sumX += (x / w) * weight;
+                  sumY += (y / h) * weight;
+                  totalW += weight;
+                }
+              }
+            }
+            if (totalW > 0) {
+              const detX = sumX / totalW;
+              const detY = sumY / totalW;
+              const finalX = Math.round(Math.min(92, Math.max(8, (detX * 0.7 + baseX * 0.3) * 100)));
+              const finalY = Math.round(Math.min(72, Math.max(12, (detY * 0.7 + baseY * 0.3) * 100)));
+              img.style.objectPosition = `${finalX}% ${finalY}%`;
+            }
           }
         } catch (_) {}
         headerEl.classList.toggle("on-light", isLightTop);
@@ -570,14 +606,14 @@
 
       const activeSci = currentSpecies.sci;
       wikiSourceLinkEl.href = `https://commons.wikimedia.org/w/index.php?search=${encodeURIComponent(activeSci)}`;
-      wikiSourceLinkEl.textContent = "Photo credit";
+      wikiSourceLinkEl.textContent = "Photo credit • v2.4";
 
       const imgRec = await resolveSpeciesImage(currentSpecies);
       if (currentSpecies.sci !== activeSci) return;
 
       if (imgRec && imgRec.thumb) {
         wikiSourceLinkEl.href = imgRec.sourceUrl;
-        wikiSourceLinkEl.textContent = "Photo credit";
+        wikiSourceLinkEl.textContent = "Photo credit • v2.4";
         ambientEl.src = imgRec.thumb;
         photoEl.onload = () => {
           if (currentSpecies.sci !== activeSci) return;
